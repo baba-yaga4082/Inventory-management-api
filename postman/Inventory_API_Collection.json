@@ -1,0 +1,856 @@
+{
+	"info": {
+		"_postman_id": "12345678-1234-1234-1234-123456789012",
+		"name": "Inventory Management API",
+		"description": "Complete collection for testing warehouse product tracking API endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						""
+					]
+				},
+				"description": "Check if the API server is running"
+			},
+			"response": []
+		},
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Sample Widget\",\n  \"description\": \"A high-quality widget for testing\",\n  \"stock_quantity\": 50,\n  \"low_stock_threshold\": 10\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Create a new product"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product (Minimal)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Minimal Product\",\n  \"stock_quantity\": 25\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Create a product with minimal required fields (uses default low_stock_threshold of 5)"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product (Invalid - Missing Name)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"description\": \"Product without name\",\n  \"stock_quantity\": 10\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Test validation error for missing required name field"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product (Invalid - Negative Stock)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Invalid Product\",\n  \"stock_quantity\": -5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Test validation error for negative stock quantity"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							]
+						},
+						"description": "Retrieve all products"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "Get a specific product by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product by ID (Invalid)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products/invalid-id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"invalid-id"
+							]
+						},
+						"description": "Test error handling for invalid product ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Updated Widget\",\n  \"description\": \"Updated description\",\n  \"stock_quantity\": 75,\n  \"low_stock_threshold\": 15\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "Update an existing product"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product (Partial)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"stock_quantity\": 100\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "Update only specific fields of a product"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product (Invalid - Negative Stock)",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"stock_quantity\": -10\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "Test validation error for negative stock in update"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}"
+							]
+						},
+						"description": "Delete a product"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product (Non-existent)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products/507f1f77bcf86cd799439011",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"507f1f77bcf86cd799439011"
+							]
+						},
+						"description": "Test error handling for deleting non-existent product"
+					},
+					"response": []
+				}
+			],
+			"description": "CRUD operations for products"
+		},
+		{
+			"name": "Stock Operations",
+			"item": [
+				{
+					"name": "Increase Stock",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 25\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}/increase-stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}",
+								"increase-stock"
+							]
+						},
+						"description": "Increase stock quantity by a given amount"
+					},
+					"response": []
+				},
+				{
+					"name": "Increase Stock (Large Amount)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 100\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}/increase-stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}",
+								"increase-stock"
+							]
+						},
+						"description": "Increase stock by a large amount"
+					},
+					"response": []
+				},
+				{
+					"name": "Increase Stock (Invalid - Negative)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": -5\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}/increase-stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}",
+								"increase-stock"
+							]
+						},
+						"description": "Test validation error for negative quantity in stock increase"
+					},
+					"response": []
+				},
+				{
+					"name": "Increase Stock (Invalid - Zero)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 0\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}/increase-stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}",
+								"increase-stock"
+							]
+						},
+						"description": "Test validation error for zero quantity in stock increase"
+					},
+					"response": []
+				},
+				{
+					"name": "Decrease Stock",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 10\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}/decrease-stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}",
+								"decrease-stock"
+							]
+						},
+						"description": "Decrease stock quantity by a given amount"
+					},
+					"response": []
+				},
+				{
+					"name": "Decrease Stock (Large Amount)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 50\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}/decrease-stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}",
+								"decrease-stock"
+							]
+						},
+						"description": "Decrease stock by a large amount"
+					},
+					"response": []
+				},
+				{
+					"name": "Decrease Stock (Insufficient)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 1000\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}/decrease-stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}",
+								"decrease-stock"
+							]
+						},
+						"description": "Test error handling for insufficient stock (should return 400)"
+					},
+					"response": []
+				},
+				{
+					"name": "Decrease Stock (Invalid - Negative)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": -3\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}/decrease-stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}",
+								"decrease-stock"
+							]
+						},
+						"description": "Test validation error for negative quantity in stock decrease"
+					},
+					"response": []
+				},
+				{
+					"name": "Decrease Stock (Invalid - Zero)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"quantity\": 0\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/products/{{product_id}}/decrease-stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"{{product_id}}",
+								"decrease-stock"
+							]
+						},
+						"description": "Test validation error for zero quantity in stock decrease"
+					},
+					"response": []
+				}
+			],
+			"description": "Stock management operations"
+		},
+		{
+			"name": "Low Stock",
+			"item": [
+				{
+					"name": "Get Low Stock Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/products/low-stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"low-stock"
+							]
+						},
+						"description": "Get all products with stock below their threshold"
+					},
+					"response": []
+				}
+			],
+			"description": "Low stock monitoring"
+		},
+		{
+			"name": "Test Scenarios",
+			"item": [
+				{
+					"name": "Complete Workflow Test",
+					"item": [
+						{
+							"name": "1. Create Test Product",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Workflow Test Product\",\n  \"description\": \"Product for testing complete workflow\",\n  \"stock_quantity\": 20,\n  \"low_stock_threshold\": 5\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/products",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products"
+									]
+								},
+								"description": "Create a product for workflow testing"
+							},
+							"response": []
+						},
+						{
+							"name": "2. Check Initial Stock",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/products/{{product_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}"
+									]
+								},
+								"description": "Verify initial stock level"
+							},
+							"response": []
+						},
+						{
+							"name": "3. Increase Stock",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"quantity\": 30\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/products/{{product_id}}/increase-stock",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}",
+										"increase-stock"
+									]
+								},
+								"description": "Increase stock to 50"
+							},
+							"response": []
+						},
+						{
+							"name": "4. Decrease Stock",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"quantity\": 10\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/products/{{product_id}}/decrease-stock",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}",
+										"decrease-stock"
+									]
+								},
+								"description": "Decrease stock to 40"
+							},
+							"response": []
+						},
+						{
+							"name": "5. Create Low Stock Situation",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"quantity\": 36\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/products/{{product_id}}/decrease-stock",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}",
+										"decrease-stock"
+									]
+								},
+								"description": "Decrease stock to 4 (below threshold of 5)"
+							},
+							"response": []
+						},
+						{
+							"name": "6. Check Low Stock",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/products/low-stock",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"low-stock"
+									]
+								},
+								"description": "Verify product appears in low stock list"
+							},
+							"response": []
+						},
+						{
+							"name": "7. Update Product",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Updated Workflow Product\",\n  \"description\": \"Updated after workflow testing\",\n  \"low_stock_threshold\": 2\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/products/{{product_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}"
+									]
+								},
+								"description": "Update product details"
+							},
+							"response": []
+						},
+						{
+							"name": "8. Clean Up - Delete Product",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{base_url}}/products/{{product_id}}",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"products",
+										"{{product_id}}"
+									]
+								},
+								"description": "Clean up by deleting the test product"
+							},
+							"response": []
+						}
+					],
+					"description": "Complete workflow test covering all major operations"
+				}
+			],
+			"description": "Comprehensive test scenarios"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "product_id",
+			"value": "",
+			"type": "string",
+			"description": "Will be set automatically when creating products"
+		}
+	]
+}
