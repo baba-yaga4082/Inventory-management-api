@@ -1,10 +1,10 @@
-// index.js
+
 const mongoose = require('mongoose');
 require('dotenv').config();
 
 const app = require('./app');
 
-// MongoDB connection
+// Mongodb connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/inventory_api';
 mongoose
   .connect(MONGODB_URI, { serverSelectionTimeoutMS: 5000 })
